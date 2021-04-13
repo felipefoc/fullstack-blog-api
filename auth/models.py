@@ -24,7 +24,3 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save()
         return user
-
-class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True)
-    email
