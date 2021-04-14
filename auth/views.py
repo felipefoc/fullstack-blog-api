@@ -6,14 +6,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
 from django.contrib.auth.models import User
-import uuid
+
+
 
 
 class CreateUserAPIView(APIView):
-    def get(self, request, format=None):
-        data = User.objects.get(id=1)
-        print(request.auth)
-        return Response(data={ 'message': 'ola' })
     def post(self, request, format=None):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -21,31 +18,3 @@ class CreateUserAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserDetail(APIView):
-    """
-    Retrieve, update or delete a person instance.
-    """
-
-    def get_object(self, pk):
-        try:
-            return Person.objects.get(pk=pk)
-        except Person.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        person = self.get_object(pk)
-        serializer = PersonSerializer(person)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        person = self.get_object(pk)
-        serializer = PersonSerializer(person, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        person = self.get_object(pk)
-        person.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

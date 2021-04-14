@@ -15,10 +15,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def validate(self, args):
         email = args.get('email', None)
         username = args.get('username', None)
+        first_name = args.get('first_name', None)
+        last_name = args.get('last_name', None)
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError({'email': ('Email already exists')})
         if User.objects.filter(username=username).exists():
-            raise serializers.ValidationError({'username': ('Username already exists')})
+            raise serializers.ValidationError({'username': ('Username already exists')})    
         return super().validate(args)
 
     def create(self, validated_data):
