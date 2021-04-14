@@ -22,6 +22,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if User.objects.filter(username=username).exists():
             raise serializers.ValidationError({'username': ('Username already exists')})    
         return super().validate(args)
-
+        
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)

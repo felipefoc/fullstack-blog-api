@@ -3,9 +3,30 @@ from django.contrib.auth.models import User
 
 
 class UsersSerializer(serializers.ModelSerializer):
+    is_superuser = serializers.ReadOnlyField(default=False)
+    email = serializers.EmailField(max_length=50, min_length=6)
+    username = serializers.CharField(max_length=50, min_length=6)
+    password = serializers.CharField(max_length=150, write_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'username', 'is_superuser']
+        fields = ('id', 'first_name', 'last_name', 'email', 'username', 'password', 'is_superuser')
+
+    def validate(self, args):
+        email = args.get('email', None)
+        username = args.get('username', None)
+        first_name = args.get('first_name', None)
+        last_name = args.get('last_name', None)
+        if User.objects.filter(email=email).exists():
+            raise serializers.ValidationError({'email': ('Email already exists')})
+        if User.objects.filter(username=username).exists():
+            raise serializers.ValidationError({'username': ('Username already exists')})    
+        return super().validate(args)
+        
+    def create(self, validated_data):
+        super(UsersSerializer, self)
+        return User.objects.create_user(**validated_data)
+
 
 class AdminSeriealizers(serializers.ModelSerializer):
     class Meta:

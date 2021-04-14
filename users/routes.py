@@ -4,7 +4,7 @@ from django.urls import include, path
 
 router = DefaultRouter()
 router.register(r'', UserViewSet)
-router.register(r'admins', AdminViewSet)
+
 
 
 
