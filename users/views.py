@@ -11,6 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['GET'])
 @permission_classes([IsAuthenticated,])
 def test(request):
+    """
+    alaal
+    """
     return Response({"message": "Hello, world!"})
 
 
