@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 
 
+
 class CreateUserAPIView(APIView):
     def post(self, request, format=None):
         serializer = RegistrationSerializer(data=request.data)
