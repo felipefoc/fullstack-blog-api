@@ -1,10 +1,9 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path, include
+from .views import function_based_view
 
 
-
-routers = DefaultRouter()
-# routers.register('name_of_class', Class_Name, basename='somename')
-
-
-urlpatterns = [path("", include(routers.urls))]
+urlpatterns = [
+    path('fbv/', function_based_view, name="fbv"),
+    path('fbv/<int:id>', function_based_view, name="fbv"),
+    # path('fbv/<int:id>/', function_based_view_id, name="fbv_id"),
+]
